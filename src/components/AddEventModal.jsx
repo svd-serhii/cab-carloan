@@ -3,19 +3,22 @@ import Modal from 'react-modal';
 import Datetime from 'react-datetime';
 
 export const AddEventModal = ({ isOpen, onClose, onEventAdded }) => {
-  const [name, setName] = useState('');
+  const [region, setRegion] = useState('');
+  const [branch, setBranch] = useState('');
+  const [title, setTitle] = useState('');
   const [brand, setBrand] = useState('');
-  const [credit, setCredit] = useState(0);
-  const [day, setDay] = useState(new Date());
+  const [credit, setCredit] = useState(Number);
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
 
   const onSubmit = event => {
     event.preventDefault();
 
     onEventAdded({
-      name,
-      brand,
-      credit,
-      day,
+      title,
+      start,
+      end,
+      extendedProps: { brand, credit, region, branch },
     });
     onClose();
   };
@@ -24,21 +27,32 @@ export const AddEventModal = ({ isOpen, onClose, onEventAdded }) => {
     <Modal isOpen={isOpen} onRequestClose={onClose}>
       <form onSubmit={onSubmit}>
         <input
-          placeholder="client name"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          placeholder="прізвище клієнта"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
         />
         <input
-          placeholder="car brand"
+          placeholder="вказати який автомобіль"
           value={brand}
           onChange={e => setBrand(e.target.value)}
         />
         <input
-          placeholder="credit amount"
+          placeholder="вказати місто угоди"
+          value={region}
+          onChange={e => setRegion(e.target.value)}
+        />
+        <input
+          placeholder="вказати відділення"
+          value={branch}
+          onChange={e => setBranch(e.target.value)}
+        />
+        <input
+          placeholder="загальна сума кредиту"
           value={credit}
           onChange={e => setCredit(e.target.value)}
         />
-        <Datetime value={day} onChange={date => setDay(date)} />
+        <Datetime value={start} onChange={date => setStart(date)} />
+        <Datetime value={end} onChange={date => setEnd(date)} />
         <button>Add event</button>
       </form>
     </Modal>
