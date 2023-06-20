@@ -24,8 +24,12 @@ const Calendar = () => {
     console.log(event);
   };
 
-  const handleClickEvent = () => {
+  const handleDateClick = () => {
     setModalOpen(true);
+  };
+
+  const handleEventClick = e => {
+    console.log(e.currentTarget);
   };
 
   return (
@@ -42,7 +46,8 @@ const Calendar = () => {
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          dateClick={handleClickEvent}
+          dateClick={handleDateClick}
+          eventClick={handleEventClick}
           headerToolbar={{
             left: 'today,prev,next',
             center: 'title',
