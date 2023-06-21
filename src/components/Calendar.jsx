@@ -28,8 +28,11 @@ const Calendar = () => {
     setModalOpen(true);
   };
 
-  const handleEventClick = e => {
-    console.log(e.currentTarget);
+  const handleEventClick = info => {
+    info.jsEvent.preventDefault();
+    if (info.event.title) {
+      setModalOpen(true);
+    }
   };
 
   return (
