@@ -1,14 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { AddEventModal } from './AddEventModal';
+import { addEvent, getEvents } from '../redux/events/eventsOperations';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Calendar = () => {
+  const events = useSelector(state => state.events.items);
   const [modalOpen, setModalOpen] = useState(false);
   const calendarRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
 
   const onEventAdded = event => {
     let calendarApi = calendarRef.current.getApi();
@@ -23,6 +31,17 @@ const Calendar = () => {
     });
     console.log(event);
   };
+
+  function handleEventAdd(data) {
+    console.log(data.event);
+    addEvent(data.event);
+  }
+
+  // const handleDataSet = async data => {
+  //   const response = await getEvents(data);
+
+  //   setEvents(response.data);
+  // };
 
   const handleDateClick = () => {
     setModalOpen(true);
@@ -46,9 +65,12 @@ const Calendar = () => {
       </div>
       <div style={{ position: 'relative', zIndex: 0 }}>
         <FullCalendar
+          events={events}
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          // datesSet={data => handleDataSet(data)}
+          eventAdd={event => handleEventAdd(event)}
           dateClick={handleDateClick}
           eventClick={handleEventClick}
           headerToolbar={{
