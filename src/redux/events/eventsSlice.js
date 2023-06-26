@@ -7,7 +7,7 @@ const initialState = {
   error: null,
 };
 
-export const eventSlice = createSlice({
+const eventSlice = createSlice({
   name: 'events',
   initialState,
 
@@ -47,3 +47,5 @@ export const eventSlice = createSlice({
       });
   },
 });
+
+export const eventsReducer = eventSlice.reducer;

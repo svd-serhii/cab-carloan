@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import * as API from '../../services/eventApi';
 
 export const getEvents = createAsyncThunk(
-  'events/getAll',
+  'events/getEvents',
   async (_, { rejectWithValue }) => {
     try {
       const result = await API.getEvents();

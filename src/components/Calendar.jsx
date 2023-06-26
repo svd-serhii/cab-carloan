@@ -1,22 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import moment from 'moment';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { AddEventModal } from './AddEventModal';
-import { addEvent, getEvents } from '../redux/events/eventsOperations';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  addEvent,
+  getEvents,
+  updateEvents,
+} from '../redux/events/eventsOperations';
 
 const Calendar = () => {
-  const events = useSelector(state => state.events.items);
   const [modalOpen, setModalOpen] = useState(false);
   const calendarRef = useRef(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
 
   const onEventAdded = event => {
     let calendarApi = calendarRef.current.getApi();
@@ -37,11 +34,7 @@ const Calendar = () => {
     addEvent(data.event);
   }
 
-  // const handleDataSet = async data => {
-  //   const response = await getEvents(data);
-
-  //   setEvents(response.data);
-  // };
+  const events = getEvents();
 
   const handleDateClick = () => {
     setModalOpen(true);
